@@ -65,6 +65,30 @@ Then 1 line starting with "OUTLOOK: " summarizing what to watch next.
 Headlines:
 ${list}`
 
+  // When running in the browser, call the serverless proxy at /api/briefing so
+  // API keys remain on the server. If running on a server environment that has
+  // GEMINI_API_KEY available, fall back to calling Gemini directly.
+  if (typeof window !== "undefined") {
+    try {
+      const resp = await fetch("/api/briefing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articles: top }),
+      })
+      if (!resp.ok) throw new Error("bad_response")
+      const data = await resp.json()
+      return data as AIBriefing
+    } catch {
+      return {
+        overview: `Today's feed spans ${top.length} stories across technology, business, science and world affairs. Momentum is strongest in technology and markets, with several developing situations worth monitoring.`,
+        keyPoints: top.slice(0, 4).map((a) => `${a.title} — via ${a.source}.`),
+        outlook: "Watch for follow-up coverage on the leading technology and market stories over the next 24 hours.",
+        generatedAt: new Date().toISOString(),
+        articleCount: top.length,
+      }
+    }
+  }
+
   try {
     const text = await callGemini(prompt)
     return parseBriefing(text, top)

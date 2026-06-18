@@ -26,3 +26,5 @@ pnpm-lock.yaml
 node_modules
 .next/
 .DS_Store
+.vercel
+.env*

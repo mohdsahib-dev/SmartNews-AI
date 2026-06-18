@@ -64,7 +64,7 @@ export function Landing() {
             </Button>
             <Link to="/dashboard">
               <Button>
-                Open App
+                      Get Started
                 <ArrowRight />
               </Button>
             </Link>
