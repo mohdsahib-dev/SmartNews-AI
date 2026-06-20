@@ -48,4 +48,4 @@ export const CATEGORY_LABEL: Record<CategoryId, string> = CATEGORIES.reduce(
 export const REFRESH_INTERVAL = 10 * 60 * 1000 // 10 minutes
 
 export const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY ?? ""
-export const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL ?? "gemini-2.0-flash"
+export const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL ?? "gemini-3.1-flash-lite"

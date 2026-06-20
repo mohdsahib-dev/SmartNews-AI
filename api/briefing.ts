@@ -7,7 +7,7 @@ import { VercelRequest, VercelResponse } from "@vercel/node"
 
 async function callGeminiServer(prompt: string): Promise<string> {
   const key = process.env.GEMINI_API_KEY || process.env.GENERATIVE_API_KEY
-  const model = process.env.GEMINI_MODEL || "gemini-2.0-flash"
+  const model = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite"
   if (!key) throw new Error("NO_KEY")
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`
   const res = await fetch(url + `?key=${key}`, {
