@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from "@vercel/node"
-import fetch from "node-fetch"
+
 
 // Server-side proxy for generating an AI briefing. Reads GEMINI_API_KEY from
 // process.env (set this in Vercel environment variables) and returns the
@@ -7,7 +7,7 @@ import fetch from "node-fetch"
 
 async function callGeminiServer(prompt: string): Promise<string> {
   const key = process.env.GEMINI_API_KEY || process.env.GENERATIVE_API_KEY
-  const model = process.env.GEMINI_MODEL || "models/text-bison-001"
+  const model = process.env.GEMINI_MODEL || "gemini-2.0-flash"
   if (!key) throw new Error("NO_KEY")
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`
   const res = await fetch(url + `?key=${key}`, {
@@ -17,7 +17,7 @@ async function callGeminiServer(prompt: string): Promise<string> {
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: { temperature: 0.4, maxOutputTokens: 1024 },
     }),
-    timeout: 30000,
+    
   })
   if (!res.ok) {
     const txt = await res.text()
